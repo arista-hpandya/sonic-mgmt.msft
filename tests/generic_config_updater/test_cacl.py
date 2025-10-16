@@ -20,7 +20,7 @@ from tests.common.utilities import wait_until
 # SSH_ONLY    CTRLPLANE  SSH              SSH_ONLY       ingress
 
 pytestmark = [
-    pytest.mark.topology('t0', 'm0', 'mx', 't1'),
+    pytest.mark.topology('t0', 'm0', 'mx', 'm1', 't1', 't2', 'lt2', 'ft2'),
 ]
 
 logger = logging.getLogger(__name__)
