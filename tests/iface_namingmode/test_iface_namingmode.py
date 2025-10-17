@@ -726,7 +726,7 @@ class TestConfigInterface():
 
     @pytest.fixture(scope="class", autouse=True)
     def setup_check_topo(self, tbinfo):
-        if tbinfo['topo']['type'] not in ['t2', 't1']:
+        if tbinfo['topo']['type'] not in ['t2', 't1', 'lt2', 'ft2']:
             pytest.skip('Unsupported topology')
 
     @pytest.fixture(scope='class', autouse=True)
@@ -908,7 +908,7 @@ def test_show_acl_table(setup, setup_config_mode, tbinfo):
     Checks whether 'show acl table DATAACL' lists the interface names
     as per the configured naming mode
     """
-    if tbinfo['topo']['type'] not in ['t1', 't2']:
+    if tbinfo['topo']['type'] not in ['t1', 't2', 'lt2', 'ft2']:
         pytest.skip('Unsupported topology')
 
     if not setup['physical_interfaces']:
@@ -937,7 +937,7 @@ def test_show_interfaces_neighbor_expected(setup, setup_config_mode, tbinfo, dut
     Checks whether 'show interfaces neighbor expected' lists the
     interface names as per the configured naming mode
     """
-    if tbinfo['topo']['type'] not in ['t1', 't2']:
+    if tbinfo['topo']['type'] not in ['t1', 't2', 'lt2', 'ft2']:
         pytest.skip('Unsupported topology')
 
     skip_test_for_multi_asic(duthosts, enum_rand_one_per_hwsku_frontend_hostname)
@@ -962,7 +962,7 @@ class TestNeighbors():
 
     @pytest.fixture(scope="class", autouse=True)
     def setup_check_topo(self, setup, tbinfo, duthosts, enum_rand_one_per_hwsku_frontend_hostname):
-        if tbinfo['topo']['type'] not in ['t2', 't1']:
+        if tbinfo['topo']['type'] not in ['t2', 't1', 'lt2', 'ft2']:
             pytest.skip('Unsupported topology')
         duthost = duthosts[enum_rand_one_per_hwsku_frontend_hostname]
         if duthost.is_multi_asic:
@@ -1027,7 +1027,7 @@ class TestShowIP():
 
     @pytest.fixture(scope="class", autouse=True)
     def setup_check_topo(self, setup, tbinfo):
-        if tbinfo['topo']['type'] not in ['t2', 't1']:
+        if tbinfo['topo']['type'] not in ['t2', 't1', 'lt2', 'ft2']:
             pytest.skip('Unsupported topology')
 
         if not setup['physical_interfaces']:

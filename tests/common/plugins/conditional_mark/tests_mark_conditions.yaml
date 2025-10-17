@@ -214,7 +214,7 @@ bgp/test_bgpmon.py:
   skip:
     reason: "Not supported on T2 topology or topology backend"
     conditions:
-      - "'backend' in topo_name or 't2' in topo_name"
+      - "'backend' in topo_name or topo_type in ['t2']"
 
 bgp/test_bgpmon_v6.py::test_bgpmon_no_ipv6_resolve_via_default:
   skip:
@@ -1126,7 +1126,7 @@ gnmi/test_gnmi_configdb.py:
     reason: "This feature is not supported for multi asic. Skipping these test for T2 and multi asic."
     conditions_logical_operator: or
     conditions:
-      - "'t2' in topo_name"
+      - "topo_type in ['t2']"
       - "is_multi_asic==True"
 
 gnmi/test_gnoi_killprocess.py::test_gnoi_killprocess_then_restart:
