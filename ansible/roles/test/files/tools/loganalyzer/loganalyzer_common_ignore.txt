@@ -369,3 +369,6 @@ r, ".* ERR syncd#syncd: .*SAI_API_SWITCH:sai_query_stats_capability:874 stats ca
 r, ".* ERR syncd#syncd: .*SAI_API_QUEUE:_brcm_sai_xgs_pkt_trim_get_mapped_counter:\d+ packet trim stats not enabled"
 r, ".* ERR syncd#syncd: .*SAI_API_QUEUE:_brcm_sai_cosq_stat_get:\d+ Get Trim stats packets failed with error .*"
 r, ".* ERR syncd#syncd: .*SAI_API_QUEUE:_brcm_sai_xgs_queue_pkt_trim_get_clear_ctr:\d+ Get Trim mapped counter failed with error .*"
+
+# Ignore SRV6 error CSP CS00012419486
+r, ".* ERR syncd#syncd: .*SAI_API_SWITCH:sai_object_type_get_availability:\d+ availablity my_sid failed with error .*"
