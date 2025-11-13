@@ -21,6 +21,31 @@ ESTABLISH_LLDP_NEIGHBOR_TIMEOUT = 90
 QUEUE_COUNTERS_RE_FMT = r'{}\s+[U|M]C|ALL\d\s+\S+\s+\S+\s+\S+\s+\S+'
 
 
+@pytest.fixture
+def ignore_host_lane_count_loganalyzer(enum_rand_one_per_hwsku_frontend_hostname, loganalyzer):
+    def wrapper(ignore_condition=False):
+        """
+            Ignore expected failures logs during test execution.
+
+            LAG tests are triggering following syncd complaints but the don't cause
+            harm to DUT.
+
+            Args:
+                duthost: DUT fixture
+                loganalyzer: Loganalyzer utility fixture
+        """
+        if not ignore_condition:
+            return
+        # when loganalyzer is disabled, the object could be None
+        if loganalyzer:
+            ignoreRegex = [
+                (".*ERR pmon#xcvrd.*: no suitable app for the port appl .* host_lane_count [0-9] host_speed.*"),
+            ]
+            loganalyzer[enum_rand_one_per_hwsku_frontend_hostname].ignore_regex.extend(ignoreRegex)
+
+    yield wrapper
+
+
 def skip_test_for_multi_asic(duthosts, enum_rand_one_per_hwsku_frontend_hostname):
     duthost = duthosts[enum_rand_one_per_hwsku_frontend_hostname]
     if duthost.is_multi_asic:
@@ -845,7 +870,8 @@ class TestConfigInterface():
                       "LLDP neighbor should exist for interface {}".format(test_intf))
 
     def test_config_interface_speed(self, setup_config_mode, sample_intf,
-                                    duthosts, enum_rand_one_per_hwsku_frontend_hostname):
+                                    duthosts, enum_rand_one_per_hwsku_frontend_hostname,
+                                    ignore_host_lane_count_loganalyzer):
         """
         Checks whether 'config interface speed <intf> <speed>' sets
         speed of the test interface when its interface alias/name is
@@ -871,6 +897,10 @@ class TestConfigInterface():
                     interface)
         speed = dutHostGuest.shell('SONIC_CLI_IFACE_MODE={} {}'.format(ifmode, db_cmd))['stdout']
         hwsku = duthost.facts['hwsku']
+
+        ignore_host_lane_count_loganalyzer(ignore_condition=hwsku in ["Arista-7060X6-64PE-P32O64",
+                                                                      "Arista-7060X6-64PE-P64"])
+
         if hwsku in ["Cisco-88-LC0-36FH-M-O36", "Cisco-88-LC0-36FH-O36"]:
             if (int(speed) == 400000 and int(configure_speed) <= 100000) or \
                (int(speed) == 100000 and int(configure_speed) > 200000):
