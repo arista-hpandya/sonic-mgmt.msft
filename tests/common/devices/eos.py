@@ -5,6 +5,8 @@ import re
 import os
 
 from tests.common.devices.base import AnsibleHostBase
+from tests.common.errors import RunAnsibleModuleFail
+from retry import retry
 
 logger = logging.getLogger(__name__)
 
@@ -81,6 +83,7 @@ class EosHost(AnsibleHostBase):
     def __repr__(self):
         return self.__str__()
 
+    @retry(RunAnsibleModuleFail, tries=3, delay=5)
     def shutdown(self, interface_name):
         out = self.eos_config(
             lines=['shutdown'],
@@ -92,6 +95,7 @@ class EosHost(AnsibleHostBase):
         intf_str = ','.join(interfaces)
         return self.shutdown(intf_str)
 
+    @retry(RunAnsibleModuleFail, tries=3, delay=5)
     def no_shutdown(self, interface_name):
         out = self.eos_config(
             lines=['no shutdown'],
@@ -216,10 +220,12 @@ class EosHost(AnsibleHostBase):
         out = self.eos_config(lines=['agent Rib shutdown'])
         return out
 
+    @retry(RunAnsibleModuleFail, tries=3, delay=5)
     def start_bgpd(self):
         out = self.eos_config(lines=['no agent Rib shutdown'])
         return out
 
+    @retry(RunAnsibleModuleFail, tries=3, delay=5)
     def no_shutdown_bgp(self, asn):
         out = self.eos_config(
             lines=['no shut'],
@@ -227,6 +233,7 @@ class EosHost(AnsibleHostBase):
         logging.info('No shut BGP [%s]' % asn)
         return out
 
+    @retry(RunAnsibleModuleFail, tries=3, delay=5)
     def no_shutdown_bgp_neighbors(self, asn, neighbors=[]):
         if not neighbors:
             return
