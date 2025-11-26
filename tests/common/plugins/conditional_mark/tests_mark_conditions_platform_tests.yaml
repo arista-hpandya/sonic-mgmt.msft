@@ -1062,6 +1062,7 @@ platform_tests/test_advanced_reboot.py:
       - "platform in ['x86_64-arista_7050_qx32s']"
       - "'dualtor' in topo_name and release in ['202012']"
       - "asic_type in ['vs']"
+      - "'f2' in topo_name"
       - "release in ['202412']"
 
 platform_tests/test_advanced_reboot.py::test_fast_reboot_from_other_vendor:
@@ -1073,6 +1074,7 @@ platform_tests/test_advanced_reboot.py::test_fast_reboot_from_other_vendor:
       - "platform in ['x86_64-arista_7050_qx32s']"
       - "'dualtor' in topo_name and release in ['202012']"
       - "release in ['202412']"
+      - "'f2' in topo_name"
 
 platform_tests/test_advanced_reboot.py::test_warm_reboot:
   skip:
@@ -1081,6 +1083,7 @@ platform_tests/test_advanced_reboot.py::test_warm_reboot:
     conditions:
       - "asic_type in ['vs'] and 't0' not in topo_name"
       - "release in ['202412']"
+      - "'f2' in topo_name"
 
 platform_tests/test_advanced_reboot.py::test_warm_reboot_mac_jump:
   skip:
@@ -1089,6 +1092,7 @@ platform_tests/test_advanced_reboot.py::test_warm_reboot_mac_jump:
     conditions:
       - "asic_type in ['vs']"
       - "release in ['202412']"
+      - "'f2' in topo_name"
 
 platform_tests/test_advanced_reboot.py::test_warm_reboot_sad:
   skip:
@@ -1097,12 +1101,7 @@ platform_tests/test_advanced_reboot.py::test_warm_reboot_sad:
     conditions:
       - "asic_type in ['vs']"
       - "release in ['202412']"
-
-platform_tests/test_advanced_reboot.py::test_warm_reboot:
-  skip:
-    reason: "Skip in PR testing as taking too much time."
-    conditions:
-      - "asic_type in ['vs'] and 't0' not in topo_name"
+      - "'f2' in topo_name"
 
 #######################################
 #####   test_chassis_reboot.py  #####
@@ -1252,6 +1251,7 @@ platform_tests/test_reboot.py::test_fast_reboot:
       - "topo_type in ['m0', 'mx', 't1', 't2']"
       - "'dualtor' in topo_name and https://github.com/sonic-net/sonic-buildimage/issues/16502"
       - "release in ['202412']"
+      - "'f2' in topo_name"
   xfail:
     reason: "case failed and waiting for fix"
     conditions:
@@ -1276,6 +1276,7 @@ platform_tests/test_reboot.py::test_warm_reboot:
     conditions:
       - "topo_type in ['m0', 'mx', 't1', 't2']"
       - "'dualtor' in topo_name and https://github.com/sonic-net/sonic-buildimage/issues/16502"
+      - "'f2' in topo_name"
   xfail:
     reason: "case failed and waiting for fix"
     conditions:
