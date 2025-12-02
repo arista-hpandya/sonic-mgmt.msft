@@ -8,6 +8,9 @@ from tests.common.utilities import backup_config, restore_config, get_running_co
     reload_minigraph_with_golden_config, file_exists_on_dut, compare_dicts_ignore_list_order, \
     NON_USER_CONFIG_TABLES
 
+# Tables known to be overriden in run-time config, which will appear different
+# if the golden config is overridden empty.
+GOLDEN_OVERRRIDDEN_TABLES = ["FEATURE", "PORT"]
 
 GOLDEN_CONFIG = "/etc/sonic/golden_config_db.json"
 GOLDEN_CONFIG_BACKUP = "/etc/sonic/golden_config_db.json_before_override"
@@ -87,7 +90,7 @@ def load_minigraph_with_golden_empty_input(duthost):
     current_config = get_running_config(duthost)
     problem_tables = []
     for table in initial_config:
-        if table in NON_USER_CONFIG_TABLES:
+        if table in NON_USER_CONFIG_TABLES or table in GOLDEN_OVERRRIDDEN_TABLES:
             continue
 
         if table == "ACL_TABLE":
