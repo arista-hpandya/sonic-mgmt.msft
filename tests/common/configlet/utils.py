@@ -135,7 +135,9 @@ scan_dbs = {
                 "TRANSCEIVER_STATUS",
                 "TRANSCEIVER_STATUS_FLAG_CLEAR_TIME\\|Ethernet[0-9]+"
             },
-            "keys_skip_val_comp": set()
+            "keys_skip_val_comp": {
+                "last_update_time"
+            }
         }
     }
 
